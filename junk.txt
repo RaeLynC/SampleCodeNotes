@@ -1,0 +1,344 @@
+********************************************************************************
+[cygwin locs...]
+
+/cygdrive/c/Users/raecr/Downloads/development/python_examples (brainstem)
+/usr/lib/python2.7/site-packages/brainstem/
+********************************************************************************
+[CMD-Line}
+
+Ctrl+	// make text bigger
+Ctrl-
+
+// Set up display:
+export DISPLAY=:0.0 	// in .profile
+NOTE: to run x apps - cygwin does not automatically start x11 server.
+> startxwin&
+>gitk&
+>idle3&
+
+********************************************************************************
+[GIT]
+Github/git desktop
+
+/* Config files */
+
+	/etc/gitconfig
+	git config --system 	// to specify
+
+	~/.gitconfig		// user
+		
+	//.git/config		// in git dir - repository
+
+git config --list			// Show settings
+git config --show-origin user.name	// which config resolved the symbol?
+
+[on install]
+git config --global user.name "Rae"
+git config --global user.email raelyn.crowell@gmail.com
+git config --global core.editor vi
+
+git config --global credential.helper cache
+[aliases] git config --global alias.co checkout
+          git config --global alias.unstage 'reset HEAD --'
+              ex. > git unstage file
+
+// Add a .gitignore file to your home dir
+~/.gitignore (ex. *.exe)
+add to ~/.gitconfig
+	excludesfile = /home/raecr/.gitignore
+
+git help <cmd>
+git <cmd> -h
+man git <cmd>
+
+// Get a repo:
+
+// 1. Clone existing?
+
+    > git clone <url>
+    Ex. > git clone https://github.com/libgit2/libgit2
+    Ex. > git clone https://github.com/libgit2/libgit2 mylibgit2  // opt rename
+
+	NOTE: other protocols supported besides https (SSH, etc)
+
+// 2. Create a git repo ...
+
+    cd ../My project
+    > git init		// creates a .git subdir/skeleton repo
+    > git add *.cpp	// initial commit
+    > git commit -m "initial project version"
+
+    // Add to <remote>?
+    > git remote add origin https://github.com/RaeLynC/Proj-Name
+    > git push -u origin master
+
+NOTE: origin is the def. name GIT gives to the cloned server.
+
+> git add file		// To stage
+> git rm file.c		// use -f to force rm, if in staging area
+> git rm --cached file.c	// rm from staging area, but keep it in your
+				// working dir.
+	git rm \*~
+	git rm log/\*.log
+	
+> git mv file_from file_to	// rename a file
+
+// diff-local
+> git diff		// W->S
+> git diff --staged	// S->HEAD
+> git diff HEAD		// W->HEAD
+
+[Remotes/Branches+]
+
+    > git branch  (will pt to current)
+		-v
+		-vv
+		--merged (branches safe to delete)
+		--no-merged
+    > git remote
+    	    -v // show URL, fetch/push
+    > git ls-remote <remote>
+    > git remote show <remote>
+
+	NOTE: will have info about stale branches to prune:
+	> git remote prune <remote> --dry-run	// just list recommended
+	> git remote prune <remote> 
+
+    // Add remote repo:
+    > git remote add <shortname> <url>
+        ex. git remote add rae-repo https://...
+	ex. (for test purposes... add another copy of your directory as a "remote"
+	git remote add repo /.../repo
+    > git fetch rae-repo	NOTE: Fetch only updates pointers, does not change
+        			working files (need to merge)
+
+    [merge/get]
+    > git merge <remote>/<branch> // if already have copy
+    > git checkout -b new_feature <remote>/<branch>
+        [shortcut]
+        > git checkout server_fix (if it's the only one in remotes w/that name)
+
+    // Add local branch to URL?
+    > git push origin new_feature
+
+    // delete remote branch>
+    > git push origin --delete server_fix
+
+ 
+    > git pull <remote> <branch>	// Fetch+merge
+    > git push <remote> <branch>
+        ex. > git push origin master // Push your changes!
+
+    // diff-branches/remotes
+    > git diff <src> <target>
+    > git diff <remote>/<branch>	// active branch
+        > git diff <my-branch> <local-branch>
+        > git diff <my-branch> <remote>/<branch>
+
+        > git push <remote> <branch>
+
+    NOTE: weird push error?  git push origin HEAD:dev_branch
+
+[Tagging] ~ 2 types
+
+    lightweight (like a branch that doesn't change, just a ptr to a commit)
+    annotated (stored as a full obj. in the GIT db)
+    
+    > git tag
+            -l         // list
+            -l "v1.*"
+    > git -tag -a v1.1 -m "init version 1.1"	(-a, annotated)
+    > git -tag v1.4-lw                          (lightweight)
+
+    NOTE: can tag prior commits! > git log pretty=oneline (get checksum)
+    > git tag -a v1.2 checksum# (1st 8-10)
+
+    NOTE: push/pull do not transfer tags -- have to be explicit!
+    > git push origin v1.1
+                      --tags // all
+    > git pull --tags origin master
+
+[Branching]
+.. start at master
+.. create and switch to branch (make changes)
+.. switch to master
+.. merge branch->master
+.. delete branch
+
+    git log --oneline --decorate
+    git log --oneline --decorate --graph --all
+
+    git checkout -b feature_x	// Create and switch
+	git branch feature_x
+	git checkout feature_x
+    (make changes and commit)
+    git checkout master
+    git merge feature_x
+    git branch -d feature_x
+
+    NOTE: if in feature_x, and need to pick up a master change?
+    > git merge master
+    
+    CONFLICT ON MERGE? > git status (and edit)
+
+> git status
+> git status -s		// stage:working
+  git status --short
+
+> git commit		// launches editor for commenting
+> git commit -v		// adds actual diffs to the comment-section
+  git commit -m "Bug fix..."
+  git commit -a         // skip staging
+
+> git log --graph --one-line --decorate --all  // ascii-tree
+
+> git log		// Shows history (most recent 1st)
+> git log -p		// Shows diff ("patch")
+  git log --patch
+> git log -n 2		// Limit history 
+> git log -p -n 2
+> git log -2
+> git log --since=2.weeks
+  git log --since=2008-01-15
+> git log --author=Bob
+> git log --grep (--all-match)
+> git log -S function_name	// "pickaxe option"
+
+--stat		// abbreviated stats
+--pretty=?	// change log output to other formats
+	oneline
+	short
+	full
+	fuller
+
+********************************************************************************
+/* GIT: Undoing things! */
+********************************************************************************
+git commit --amend	// Takes staging area and uses it for the commit.
+			// no changes since last commit?   
+                        //     just change commit msg only
+or. example:
+> git commit -m "initial comment"
+> git add forgotten_file
+> git commit --amend	// Completely replaces initial commit
+
+> git reset HEAD file.cpp	// Unstage a file
+> git checkout -- file.cpp	// Unmodify modified file
+
+// Drop all local changes/commits (fetch latest from server and pt to it):
+git fetch origin
+git reset --hard origin/master
+
+********************************************************************************
+/* GIT: Adv. Branching */
+********************************************************************************
+Simple merge?  Fast-forward (just moves pointer forward)
+more complicated (ie. paths diverged...)?  Recursive
+
+issues at merge?  > git status // get files to merge
+********************************************************************************
+[GDB]
+g++ -g ...
+
+// Connect to running process
+ps -auxw | grep myapp
+gdb /../myapp 2812
+gdb /../myapp --pid=2812
+
+> help command
+> run
+> break file.cpp:70
+> break my_func
+> tbreak		// temp break (only 1x)
+> delete
+> disable		// disable (or enable) bp
+> info break		// List bp #s
+> info breakpoints
+> info break #
+> continue
+> finish
+> step
+> step into
+> step over
+> next
+// just "enter" to repeat last cmd
+
+// Conditional bp
+> break file.cpp:6 if i >= 10
+
+> print var
+> print/x var
+> watch var
+> set var = value
+
+
+> where
+> backtrace
+> frame
+> frame #
+> f number
+> up
+> up #
+> down
+> down #
+> info frame 
+> list
+> list line#
+> list function
+> x var
+
+> info args
+> i args
+> info threads
+> info registers
+> info watchpoints
+> info locals
+> info catch
+
+********************************************************************************
+[VIM]
+NOTE:
+	user vimrc in $HOME
+	system vimrc in $VIM
+
+echo expand('~')	// print home base
+echo $HOME
+echo $VIM
+echo $VIMRUNTIME
+echo $MYVIMRC
+
+e $MYVIMRC		// edit it
+CTRL+G			// to get the path of editted file
+
+VI - Basics:
+	
+	w		// save
+	w newwfile	// write to newfile
+	wq		// save/exit
+	q!		// exit
+
+	:e new_file	// open a dif file! 
+	Ctrl^		// toggle
+
+	9G		// move to line #
+	1G		// 1st line
+	G		// last line
+	ctrl-G		// file name/#lines
+	
+	r filename	// read/insert contents of filename 
+	*u		// undo
+********************************************************************************
+[c++ notes]
+I/O:
+* don't mix <<, >> and getline for user input.
+  (when in doubt... use getline!!!)
+
+std::boolalpha
+std::noboolalpha
+
+(auto i : myarray) // i is by-value
+(auto &i : myarray)
+(const auto &i : myarray)
+NOTE: issues with trying to use range-based for loop with dynamically allocated
+array....
+********************************************************************************
