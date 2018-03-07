@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="nosetests" tests="14" errors="0" failures="2" skip="0"><testcase classname="test_nose" name="test_numbers_3_4" time="0.000"></testcase><testcase classname="test_nose" name="test_strings_a_3" time="0.000"></testcase><testcase classname="test_nose" name="test_nosetools" time="0.000"><system-out><![CDATA[here
+]]></system-out></testcase><testcase classname="test_pkg.test_nose1.TestToolsAsserts" name="test_assertEQ" time="0.000"><system-out><![CDATA[TestToolsAsserts::setup().. fct
+TestToolsAsserts::teardown().. fct
+]]></system-out></testcase><testcase classname="test_pkg.test_nose1.TestUM" name="test_numbers_5_6" time="0.000"><system-out><![CDATA[TestUM:setup() before each test method
+test_numbers_5_6()  <============================ actual test code
+TestUM:teardown() after each test method
+]]></system-out></testcase><testcase classname="test_pkg.test_nose1.TestUM" name="test_strings_b_2" time="0.000"><system-out><![CDATA[TestUM:setup() before each test method
+test_strings_b_2()  <============================ actual test code
+TestUM:teardown() after each test method
+]]></system-out></testcase><testcase classname="test_pkg.test_nose1" name="test_numbers_3_4" time="0.000"><system-out><![CDATA[my_setup
+test_numbers_3_4  <============================ actual test code
+my_teardown
+]]></system-out></testcase><testcase classname="test_pkg.test_nose1" name="test_strings_a_3" time="0.000"><system-out><![CDATA[my_setup
+test_strings_a_3  <============================ actual test code
+my_teardown
+]]></system-out></testcase><testcase classname="test_pkg.test_nose1" name="test_strings_z_4" time="0.000"><system-out><![CDATA[test_strings_z_4  <============================ actual test code
+]]></system-out></testcase><testcase classname="test_pkg.test_nose2" name="test_evens(0, 0)" time="0.000"></testcase><testcase classname="test_pkg.test_nose2" name="test_evens(1, 3)" time="0.000"><failure type="exceptions.AssertionError" message=""><![CDATA[Traceback (most recent call last):
+  File "/usr/lib/python2.7/unittest/case.py", line 329, in run
+    testMethod()
+  File "/usr/lib/python2.7/site-packages/nose/case.py", line 197, in runTest
+    self.test(*self.arg)
+  File "/home/raecr/Sandbox-Nose/ex-structure-attrs/test_pkg/test_nose2.py", line 24, in check_even
+    assert n % 2 == 0 or nn % 2 == 0
+AssertionError
+]]></failure></testcase><testcase classname="test_pkg.test_nose2" name="test_evens(2, 6)" time="0.000"></testcase><testcase classname="test_pkg.test_nose2" name="test_evens(3, 9)" time="0.000"><failure type="exceptions.AssertionError" message=""><![CDATA[Traceback (most recent call last):
+  File "/usr/lib/python2.7/unittest/case.py", line 329, in run
+    testMethod()
+  File "/usr/lib/python2.7/site-packages/nose/case.py", line 197, in runTest
+    self.test(*self.arg)
+  File "/home/raecr/Sandbox-Nose/ex-structure-attrs/test_pkg/test_nose2.py", line 24, in check_even
+    assert n % 2 == 0 or nn % 2 == 0
+AssertionError
+]]></failure></testcase><testcase classname="test_pkg.test_nose2" name="test_evens(4, 12)" time="0.000"></testcase></testsuite>

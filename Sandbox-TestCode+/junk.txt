@@ -1,0 +1,240 @@
+********************************************************************************
+[CMD-Line}
+
+Ctrl+	// make text bigger
+Ctrl-
+
+// Set up display:
+export DISPLAY=:0.0 	// in .profile
+NOTE: to run x apps - cygwin does not automatically start x11 server.
+> startxwin&
+>gitk&
+>idle3&
+********************************************************************************
+[python]
+
+[idle]
+
+// Set and trigger a BP
+set breakpoint // rt-clk on line
+turn on debugger
+run the program
+hit Go in debug window that pops up
+
+
+********************************************************************************
+[c++ notes]
+I/O:
+* don't mix <<, >> and getline for user input.
+  (when in doubt... use getline!!!)
+
+std::boolalpha
+std::noboolalpha
+
+(auto i : myarray) // i is by-value
+(auto &i : myarray)
+(const auto &i : myarray)
+NOTE: issues with trying to use range-based for loop with dynamically allocated
+array....
+********************************************************************************
+[GDB]
+g++ -g ...
+
+// Connect to running process
+ps -auxw | grep myapp
+gdb /../myapp 2812
+gdb /../myapp --pid=2812
+
+> help command
+> run
+> break file.cpp:70
+> break my_func
+> tbreak		// temp break (only 1x)
+> delete
+> disable		// disable (or enable) bp
+> info break		// List bp #s
+> info breakpoints
+> info break #
+> continue
+> finish
+> step
+> step into
+> step over
+> next
+// just "enter" to repeat last cmd
+
+// Conditional bp
+> break file.cpp:6 if i >= 10
+
+> print var
+> print/x var
+> watch var
+> set var = value
+
+
+> where
+> backtrace
+> frame
+> frame #
+> f number
+> up
+> up #
+> down
+> down #
+> info frame 
+> list
+> list line#
+> list function
+> x var
+
+> info args
+> i args
+> info threads
+> info registers
+> info watchpoints
+> info locals
+> info catch
+
+
+********************************************************************************
+[VIM]
+NOTE:
+	user vimrc in $HOME
+	system vimrc in $VIM
+
+echo expand('~')	// print home base
+echo $HOME
+echo $VIM
+echo $VIMRUNTIME
+echo $MYVIMRC
+
+e $MYVIMRC		// edit it
+CTRL+G			// to get the path of editted file
+
+VI - Basics:
+	
+	w		// save
+	w newwfile	// write to newfile
+	wq		// save/exit
+	q!		// exit
+
+	:e new_file	// open a dif file! 
+	Ctrl^		// toggle
+
+	9G		// move to line #
+	1G		// 1st line
+	G		// last line
+	ctrl-G		// file name/#lines
+	
+	r filename	// read/insert contents of filename 
+	*u		// undo
+********************************************************************************
+[GIT]
+Github/git desktop
+
+/* Config files */
+
+	/etc/gitconfig	// on windows?
+	git config --system // to specify
+
+	~/.gitconfig	// user
+		
+	//.git/config	// in git dir - repository
+
+on Windows, GIT looks for .gitconfig @ $HOME //C:\Users\$USER
+
+[on install]
+git config --global user.name "Rae"
+git config --global user.email raelyn.crowell@gmail.com
+git config --global core.editor vi
+
+// check settings
+git config --list
+git config --show-origin user.name // which config resolved the symbol?
+
+// Add a .gitignore file to your home dir
+~/.gitignore (ex. *.exe)
+add to ~/.gitconfig
+	excludesfile = /home/raecr/.gitignore
+
+/* Clone existing? */
+> git clone <url>
+Ex. git clone https://github.com/libgit2/libgit2
+Ex. git clone https://github.com/libgit2/libgit2 mylibgit2	// opt rename
+
+	NOTE: other protocols supported besides https (SSH, etc)
+
+/* Basic commands */
+git help <verb>	// man-page
+git <verb> -h	// quick option list
+
+/* Create a git repo */
+cd ../My project
+> git init	// creates a .git subdir/skeleton repo
+> git add *.cpp	// initial commit
+> git commit -m "initial project version"
+> git commit -a	// skip staging (git auto-stages all tracked files)
+ex. git commit -a -m "skipping staging"
+
+> git status
+> git status -s		// stage:working
+  git status --short
+
+> git add file		// To stage
+
+> git diff
+> git diff --staged
+  git diff --cached
+	NOTE: staged and cached are synonyms
+
+> git commit		// launches editor for commenting
+> git commit -v		// adds actual diffs to the comment-section
+  git commit -m "Bug fix..."
+
+> git rm file.c		// use -f to force rm, if in staging area
+> git rm --cached file.c	// rm from staging area, but keep it in your
+				// working dir.
+	git rm \*~
+	git rm log/\*.log
+	
+> git mv file_from file_to	// rename a file
+
+> git log		// Shows history (most recent 1st)
+> git log -p		// Shows diff ("patch")
+  git log --patch
+> git log -n 2		// Limit history 
+> git log -p -n 2
+> git log -2
+> git log --since=2.weeks
+  git log --since=2008-01-15
+> git log --author
+> git log --grep (--all-match)
+> git log -S function_name	// "pickaxe option"
+
+--stat		// abbreviated stats
+--pretty=?	// change log output to other formats
+	oneline
+	short
+	full
+	fuller
+> git log --pretty=format:"%h - %an, %ar : %s"	// specify your own log format	
+--graph			// Useful for branching/merging
+--name-only		// file-list only
+--name-status		// file-list only, + A/M/D
+--relative-date		// "two weeks ago.."
+--abbrev-commit		// only first chars of checksum (not all 40)
+--oneline		// --pretty=oneline --abbrev-commit
+
+********************************************************************************
+/* GIT: Undoing things! */
+********************************************************************************
+git commit --amend	// Takes staging area and uses it for the commit.
+			// no changes since last commit?   just change commit msg only
+or. example:
+> git commit -m "initial comment"
+> git add forgotten_file
+> git commit --amend	// Completely replaces initial commit
+
+> git reset HEAD file.cpp	// Unstage a file
+> git checkout -- file.cpp	// Unmodify modified file
+********************************************************************************
